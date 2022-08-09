@@ -1,17 +1,17 @@
 resource "aws_iam_role" "lambda_poller" {
   name = "${local.local_resource_prefix}-${local.local_resource_suffix}"
   assume_role_policy = jsonencode({
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-    }
-  ]
-})
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Action" : "sts:AssumeRole",
+        "Principal" : {
+          "Service" : "lambda.amazonaws.com"
+        },
+        "Effect" : "Allow",
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_exec" {
@@ -27,22 +27,22 @@ resource "aws_iam_role_policy_attachment" "lambda_poller" {
 resource "aws_iam_policy" "lambda_poller" {
   name = "${local.local_resource_prefix}-${local.local_resource_suffix}"
   policy = jsonencode({
-    "Version": "2012-10-17"
-    "Statement": [
+    "Version" : "2012-10-17"
+    "Statement" : [
       {
-        "Action": "sqs:*"
-        "Resource": "*"
-        "Effect": "Allow"
+        "Action" : "sqs:*"
+        "Resource" : "*"
+        "Effect" : "Allow"
       }
     ]
   })
 }
 
 data "archive_file" "lambda_poller" {
-  type = "zip"
-  source_file = "${path.module}/../../lambda/lambda/handler.py"
+  type             = "zip"
+  source_file      = "${path.module}/../../lambda/lambda/handler.py"
   output_file_mode = "0666"
-  output_path = "${path.module}/build/lambda.zip"
+  output_path      = "${path.module}/build/lambda.zip"
 }
 
 resource "aws_lambda_function" "lambda_poller" {
