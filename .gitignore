@@ -1,0 +1,5 @@
+.idea/
+.terraform/
+terraform.tfvars
+terraform/lambda-poller/build/
+
